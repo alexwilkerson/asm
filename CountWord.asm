@@ -17,8 +17,6 @@ INCLUDE Irvine32.inc
      buffer BYTE 500 DUP(0)             ; input buffer
      byteCount DWORD ?                  ; holds counter for buffer
 
-     char BYTE ?
-
      numWords DWORD ?                   ; holds the number of words counted
 
 .code

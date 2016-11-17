@@ -212,12 +212,14 @@ SplitPath PROC
 ; ---------------------------------------------------- -
      pushad
      mov ecx,fileNameBufferSize
+     mov bl,0                           ; boolean used to see if slash found
 
 L2:
      cmp fileNameBuffer[ecx],05Ch       ; if '\' is found
      je BackslashFound
      loop L2
 
+     mov bl,1                           ; backslash found
      jmp BackslashNotFound
 
 BackslashFound:
@@ -237,10 +239,11 @@ L3:
      mov fileName[esi],0                ; insert null character at end
      mov fileNameSize,esi               ; of fileName
 
-     mov ebx,fileNameSize               ; sif fileNameSize is the same size as
-     cmp ebx,fileNameBufferSize         ; fileNameBufferSize no path dir
+     ;mov ebx,fileNameSize               ; if fileNameSize is the same size as
+     ;cmp ebx,fileNameBufferSize         ; fileNameBufferSize no path dir
+     cmp bl,1                           ; if no full path found
      jne FullPath
-     mov edx,0                          ; set null char at end
+     mov ebx,0                          ; set counter to zero
      jmp ReturnSplitPath                ; return 
 
 FullPath:
